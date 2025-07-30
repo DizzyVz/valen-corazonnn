@@ -9,10 +9,24 @@
       margin: 0;
       padding: 0;
       overflow: hidden;
+      height: 100%;
       font-family: 'Comic Sans MS', cursive;
-      background: url('https://i.ibb.co/0M3Y5FM/luna-anime.jpg') no-repeat center center fixed;
+      background: #000;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://i.ibb.co/vHSmg0y/luna-anime-estrellas.jpg');
       background-size: cover;
-      height: 100vh;
+      background-position: center;
+      background-repeat: no-repeat;
+      z-index: -1;
+      filter: brightness(0.8);
     }
 
     .texto-central {
@@ -20,7 +34,7 @@
       top: 25%;
       width: 100%;
       text-align: center;
-      font-size: 2.5em;
+      font-size: 2em;
       color: white;
       text-shadow: 2px 2px 5px black;
     }
@@ -43,21 +57,23 @@
       border-radius: 10px;
       cursor: pointer;
       box-shadow: 0 0 10px #fff;
+      z-index: 2;
+      position: relative;
     }
 
     .mensaje {
-      position: absolute;
+      position: fixed;
       white-space: nowrap;
       color: white;
       text-shadow: 1px 1px 3px black;
-      animation: caer 6s linear forwards;
-      font-size: 22px;
+      animation: caer 8s linear forwards;
+      font-size: 20px;
       pointer-events: none;
     }
 
     @keyframes caer {
       0% {
-        transform: translateY(-60px);
+        transform: translateY(-50px);
         opacity: 1;
       }
       100% {
@@ -87,9 +103,9 @@
   </style>
 </head>
 <body>
-  <div class="texto-central">Te adoro💗✨</div>
+  <div class="texto-central">Te adoro 💗✨</div>
   <div class="instruccion">Haz clic para empezar ✨</div>
-  <button id="iniciar">Iniciar 💫</button>
+  <button id="iniciar">Iniciar 🌟</button>
 
   <audio id="musica" loop>
     <source src="https://dl.dropboxusercontent.com/scl/fi/6kymqexb9iwwvps5fqxsk/musica-cute.mp3?rlkey=ml4jtxzdbx2c3d6ml03bxsk9y&dl=0" type="audio/mpeg">
@@ -98,29 +114,22 @@
 
   <script>
     const mensajes = [
-      'Te adoro💗',
-      'Te quiero 💞',
-      'Te amo🤍',
-      'Eres la mejor✨',
-      'Mi niña 💗',
-      'Biscochito 💫',
-      'corazón 🫶'
+      'Te adoro 💗', 'Te quiero 💞', 'Te amo 🤍', 'Eres la mejor ✨',
+      'Mi niña 💫', 'Biscochito 🥺', 'Mi cielo 🩷', 'Corazón 🫶'
     ];
 
     let lluviaActiva = false;
-    let intervaloLluvia;
 
     function crearLluvia() {
-      for (let i = 0; i < 12; i++) {
+      for (let i = 0; i < 10; i++) {
         const mensaje = document.createElement('div');
         mensaje.className = 'mensaje';
         mensaje.textContent = mensajes[Math.floor(Math.random() * mensajes.length)];
         mensaje.style.left = `${Math.random() * window.innerWidth}px`;
-        mensaje.style.top = `-60px`;
-        mensaje.style.fontSize = `${22 + Math.random() * 10}px`;
+        mensaje.style.top = `-50px`;
+        mensaje.style.fontSize = `${18 + Math.random() * 10}px`;
         document.body.appendChild(mensaje);
-
-        setTimeout(() => mensaje.remove(), 7000);
+        setTimeout(() => mensaje.remove(), 8000);
       }
     }
 
@@ -132,7 +141,6 @@
         estrella.style.left = `${x}px`;
         estrella.style.top = `${y}px`;
         estrella.style.fontSize = `${12 + Math.random() * 14}px`;
-        estrella.style.position = 'absolute';
         document.body.appendChild(estrella);
         setTimeout(() => estrella.remove(), 1000);
       }
@@ -144,7 +152,7 @@
     btn.addEventListener('click', (e) => {
       if (!lluviaActiva) {
         lluviaActiva = true;
-        intervaloLluvia = setInterval(crearLluvia, 1000);
+        setInterval(crearLluvia, 1200);
         musica.play();
       }
       lanzarEstrellas(e.clientX, e.clientY);
