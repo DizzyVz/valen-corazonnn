@@ -1,110 +1,98 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Valen 💗</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Te adoro 💗</title>
   <style>
-    body {
+    html, body {
       margin: 0;
+      padding: 0;
       overflow: hidden;
-      background: url('https://i.imgur.com/07lS5hD.jpg') no-repeat center center fixed;
+      font-family: 'Comic Sans MS', cursive;
+      background: url('https://i.ibb.co/0M3Y5FM/luna-anime.jpg') no-repeat center center fixed;
       background-size: cover;
-      font-family: 'Comic Sans MS', cursive, sans-serif;
-      position: relative;
+      height: 100vh;
+    }
+
+    .texto-central {
+      position: absolute;
+      top: 25%;
+      width: 100%;
+      text-align: center;
+      font-size: 2.5em;
+      color: white;
+      text-shadow: 2px 2px 5px black;
+    }
+
+    .instruccion {
+      text-align: center;
+      margin-top: 20px;
+      color: #fff;
+      font-size: 1.2em;
+    }
+
+    #iniciar {
+      display: block;
+      margin: 30px auto;
+      font-size: 1.2em;
+      padding: 10px 25px;
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 0 10px #fff;
     }
 
     .mensaje {
       position: absolute;
-      color: #fff0f5;
-      animation: caer 6s linear forwards;
       white-space: nowrap;
+      color: white;
+      text-shadow: 1px 1px 3px black;
+      animation: caer 6s linear forwards;
+      font-size: 22px;
       pointer-events: none;
     }
 
     @keyframes caer {
       0% {
-        transform: translateY(0) rotate(0deg);
+        transform: translateY(-60px);
         opacity: 1;
       }
       100% {
-        transform: translateY(100vh) rotate(360deg);
+        transform: translateY(100vh);
         opacity: 0;
       }
-    }
-
-    .texto-central {
-      position: absolute;
-      top: 40%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 32px;
-      color: #ffffff;
-      text-shadow: 1px 1px 2px #000;
-      text-align: center;
-      z-index: 10;
-      user-select: none;
-    }
-
-    .instruccion {
-      position: absolute;
-      top: 60%;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 16px;
-      color: #eeeeee;
-      text-align: center;
-      z-index: 5;
-    }
-
-    #reiniciar {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      padding: 10px 20px;
-      background: #ff66cc;
-      color: white;
-      border: none;
-      border-radius: 20px;
-      font-size: 16px;
-      cursor: pointer;
-      display: none;
-      z-index: 100;
-      box-shadow: 0 0 10px #ff66cc;
-    }
-
-    #reiniciar:hover {
-      background: #ff3399;
     }
 
     .estrella {
       position: absolute;
-      color: yellow;
-      font-size: 20px;
+      font-size: 16px;
+      color: #fffacd;
       animation: explotar 1s ease-out forwards;
+      pointer-events: none;
     }
 
     @keyframes explotar {
       0% {
-        transform: scale(0.5);
         opacity: 1;
+        transform: scale(1) translateY(0);
       }
       100% {
-        transform: translateY(-100px) scale(2);
         opacity: 0;
+        transform: scale(2.5) translateY(-100px);
       }
     }
   </style>
 </head>
 <body>
-
   <div class="texto-central">Te adoro💗✨</div>
   <div class="instruccion">Haz clic para empezar ✨</div>
-  <button id="reiniciar">Reiniciar 💫</button>
+  <button id="iniciar">Iniciar 💫</button>
 
-  <!-- Música de fondo -->
   <audio id="musica" loop>
-    <source src="https://dl.dropboxusercontent.com/scl/fi/3uywryulap17z2p0pwzuy/musica-suave.mp3?rlkey=4a7zjplfdowkp9z4ep6v4bbp6&dl=0" type="audio/mpeg">
+    <source src="https://dl.dropboxusercontent.com/scl/fi/6kymqexb9iwwvps5fqxsk/musica-cute.mp3?rlkey=ml4jtxzdbx2c3d6ml03bxsk9y&dl=0" type="audio/mpeg">
     Tu navegador no soporta audio.
   </audio>
 
@@ -122,65 +110,44 @@
     let lluviaActiva = false;
     let intervaloLluvia;
 
-    function lluvia() {
-      for (let i = 0; i < 20; i++) {
+    function crearLluvia() {
+      for (let i = 0; i < 12; i++) {
         const mensaje = document.createElement('div');
         mensaje.className = 'mensaje';
         mensaje.textContent = mensajes[Math.floor(Math.random() * mensajes.length)];
-        mensaje.style.left = Math.random() * window.innerWidth + 'px';
-        mensaje.style.top = '-40px';
-        mensaje.style.fontSize = (22 + Math.random() * 8) + 'px';
+        mensaje.style.left = `${Math.random() * window.innerWidth}px`;
+        mensaje.style.top = `-60px`;
+        mensaje.style.fontSize = `${22 + Math.random() * 10}px`;
         document.body.appendChild(mensaje);
-        setTimeout(() => mensaje.remove(), 6000);
+
+        setTimeout(() => mensaje.remove(), 7000);
       }
     }
 
-    function explotarEstrellas(x, y) {
-      for (let i = 0; i < 30; i++) {
+    function lanzarEstrellas(x, y) {
+      for (let i = 0; i < 20; i++) {
         const estrella = document.createElement('div');
         estrella.className = 'estrella';
-        estrella.textContent = '⭐';
-        estrella.style.left = (x + Math.random() * 100 - 50) + 'px';
-        estrella.style.top = (y + Math.random() * 50 - 25) + 'px';
+        estrella.textContent = '✨';
+        estrella.style.left = `${x}px`;
+        estrella.style.top = `${y}px`;
+        estrella.style.fontSize = `${12 + Math.random() * 14}px`;
+        estrella.style.position = 'absolute';
         document.body.appendChild(estrella);
         setTimeout(() => estrella.remove(), 1000);
       }
     }
 
-    document.body.addEventListener('click', (e) => {
-      if (!lluviaActiva) iniciarLluvia(e);
-    });
+    const btn = document.getElementById('iniciar');
+    const musica = document.getElementById('musica');
 
-    function iniciarLluvia(e) {
-      lluviaActiva = true;
-      const texto = document.querySelector('.instruccion');
-      if (texto) texto.remove();
-
-      const musica = document.getElementById('musica');
-      musica.play().catch(() => {});
-
-      intervaloLluvia = setInterval(lluvia, 1500);
-      lluvia();
-
-      document.getElementById('reiniciar').style.display = 'block';
-      explotarEstrellas(e.clientX, e.clientY);
-    }
-
-    document.getElementById('reiniciar').addEventListener('click', () => {
-      clearInterval(intervaloLluvia);
-      document.querySelectorAll('.mensaje, .estrella').forEach(m => m.remove());
-      lluviaActiva = false;
-
-      const musica = document.getElementById('musica');
-      musica.pause();
-      musica.currentTime = 0;
-
-      document.getElementById('reiniciar').style.display = 'none';
-
-      const instruccion = document.createElement('div');
-      instruccion.className = 'instruccion';
-      instruccion.textContent = 'Haz clic para empezar ✨';
-      document.body.appendChild(instruccion);
+    btn.addEventListener('click', (e) => {
+      if (!lluviaActiva) {
+        lluviaActiva = true;
+        intervaloLluvia = setInterval(crearLluvia, 1000);
+        musica.play();
+      }
+      lanzarEstrellas(e.clientX, e.clientY);
     });
   </script>
 </body>
