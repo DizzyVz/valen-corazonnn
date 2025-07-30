@@ -8,7 +8,7 @@
       margin: 0;
       overflow: hidden;
       font-family: 'Comic Sans MS', cursive;
-      background: url('https://i.pinimg.com/originals/66/65/1c/66651cc13bbcc1cbcd4b46b7e415a99a.gif') no-repeat center center fixed;
+      background: url('https://w0.peakpx.com/wallpaper/949/976/HD-wallpaper-nubes-aesthetic-estrellas-fondo-de-pantalla-luna-noche-sky.jpg') no-repeat center center fixed;
       background-size: cover;
       color: white;
       text-align: center;
@@ -68,7 +68,10 @@
 <body>
   <h1>Te adoro 💗✨</h1>
   <button id="startButton">Iniciar 🌟</button>
-  <audio id="music" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_d08f8f92f8.mp3?filename=romantic-piano-110718.mp3"></audio>  <script>
+  <audio id="music" preload="auto">
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_d08f8f92f8.mp3?filename=romantic-piano-110718.mp3" type="audio/mpeg">
+    Tu navegador no soporta audio HTML5.
+  </audio>  <script>
     const mensajes = [
       'Te adoro💗', 'Te quiero 💞', 'Te amo🤍', 'Eres la mejor✨', 'Mi niña 💗', 'Biscochito 💫', 'corazón 🫶'
     ];
@@ -84,7 +87,6 @@
       mensaje.style.top = '-30px';
       mensaje.style.animationDuration = (3 + Math.random() * 5) + 's';
       document.body.appendChild(mensaje);
-
       setTimeout(() => mensaje.remove(), 8000);
     }
 
@@ -104,7 +106,9 @@
     }
 
     startButton.addEventListener('click', (e) => {
-      audio.play();
+      audio.play().catch(err => {
+        console.log('Error al reproducir audio:', err);
+      });
       lluviaContinua();
       estrellitas(e.clientX, e.clientY);
       startButton.style.display = 'none';
