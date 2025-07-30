@@ -16,7 +16,7 @@
       position: absolute;
       font-size: 24px;
       color: #d63384;
-      animation: caer 5s linear forwards;
+      animation: caer 6s linear forwards;
       white-space: nowrap;
       pointer-events: none;
     }
@@ -52,6 +52,7 @@
       font-size: 16px;
       color: #888;
       text-align: center;
+      z-index: 5;
     }
 
     #reiniciar {
@@ -81,7 +82,6 @@
   <div class="instruccion">Haz clic para empezar ✨</div>
   <button id="reiniciar">Reiniciar 💫</button>
 
-  <!-- Música de fondo -->
   <audio id="musica" loop>
     <source src="https://dl.dropboxusercontent.com/scl/fi/3uywryulap17z2p0pwzuy/musica-suave.mp3?rlkey=4a7zjplfdowkp9z4ep6v4bbp6&dl=0" type="audio/mpeg">
     Tu navegador no soporta audio.
@@ -110,7 +110,7 @@
         mensaje.style.top = '-40px';
         mensaje.style.fontSize = (22 + Math.random() * 8) + 'px';
         document.body.appendChild(mensaje);
-        setTimeout(() => mensaje.remove(), 5000);
+        setTimeout(() => mensaje.remove(), 6000);
       }
     }
 
@@ -124,9 +124,11 @@
         if (texto) texto.remove();
 
         const musica = document.getElementById('musica');
-        musica.play();
+        musica.play().catch(() => {
+          // Algunos navegadores no permiten autoplay sin interacción
+        });
 
-        intervaloLluvia = setInterval(lluvia, 1000);
+        intervaloLluvia = setInterval(lluvia, 1500); // más lento
         lluvia();
 
         document.getElementById('reiniciar').style.display = 'block';
@@ -144,12 +146,12 @@
 
       document.getElementById('reiniciar').style.display = 'none';
 
-      // restaurar instrucción
       const instruccion = document.createElement('div');
       instruccion.className = 'instruccion';
       instruccion.textContent = 'Haz clic para empezar ✨';
       document.body.appendChild(instruccion);
     });
   </script>
+
 </body>
 </html>
