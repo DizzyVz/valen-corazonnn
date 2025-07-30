@@ -7,15 +7,16 @@
     body {
       margin: 0;
       overflow: hidden;
-      background: #fff0f5;
+      background: linear-gradient(to bottom, #fff0f5, #ffe6f0);
       font-family: Arial, sans-serif;
+      cursor: pointer;
     }
 
     .mensaje {
       position: absolute;
-      font-size: 22px;
+      font-size: 24px;
       color: #d63384;
-      animation: caer 2.5s linear forwards;
+      animation: caer 5s linear forwards;
       white-space: nowrap;
       pointer-events: none;
     }
@@ -40,11 +41,51 @@
       color: #c2185b;
       text-align: center;
       z-index: 10;
+      user-select: none;
+    }
+
+    .instruccion {
+      position: absolute;
+      top: 60%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 16px;
+      color: #888;
+      text-align: center;
+    }
+
+    #reiniciar {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px 20px;
+      background: #d63384;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      font-size: 16px;
+      cursor: pointer;
+      display: none;
+      z-index: 100;
+    }
+
+    #reiniciar:hover {
+      background: #b61c6c;
     }
   </style>
 </head>
 <body>
+
   <div class="texto-central">Te adoro💗✨</div>
+  <div class="instruccion">Haz clic para empezar ✨</div>
+  <button id="reiniciar">Reiniciar 💫</button>
+
+  <!-- Música de fondo -->
+  <audio id="musica" loop>
+    <source src="https://dl.dropboxusercontent.com/scl/fi/3uywryulap17z2p0pwzuy/musica-suave.mp3?rlkey=4a7zjplfdowkp9z4ep6v4bbp6&dl=0" type="audio/mpeg">
+    Tu navegador no soporta audio.
+  </audio>
 
   <script>
     const mensajes = [
@@ -57,25 +98,58 @@
       'corazón 🫶'
     ];
 
+    let lluviaActiva = false;
+    let intervaloLluvia;
+
     function lluvia() {
-      for (let i = 0; i < 30; i++) {
+      for (let i = 0; i < 20; i++) {
         const mensaje = document.createElement('div');
         mensaje.className = 'mensaje';
         mensaje.textContent = mensajes[Math.floor(Math.random() * mensajes.length)];
         mensaje.style.left = Math.random() * window.innerWidth + 'px';
         mensaje.style.top = '-40px';
-        mensaje.style.fontSize = (20 + Math.random() * 15) + 'px';
+        mensaje.style.fontSize = (22 + Math.random() * 8) + 'px';
         document.body.appendChild(mensaje);
-
-        setTimeout(() => mensaje.remove(), 2500);
+        setTimeout(() => mensaje.remove(), 5000);
       }
     }
 
-    // Iniciar lluvia automáticamente y repetir cada 500ms
-    setInterval(lluvia, 500);
+    document.body.addEventListener('click', iniciarLluvia);
 
-    // También iniciar una primera lluvia al cargar (por si setInterval tarda)
-    window.onload = lluvia;
+    function iniciarLluvia() {
+      if (!lluviaActiva) {
+        lluviaActiva = true;
+
+        const texto = document.querySelector('.instruccion');
+        if (texto) texto.remove();
+
+        const musica = document.getElementById('musica');
+        musica.play();
+
+        intervaloLluvia = setInterval(lluvia, 1000);
+        lluvia();
+
+        document.getElementById('reiniciar').style.display = 'block';
+      }
+    }
+
+    document.getElementById('reiniciar').addEventListener('click', () => {
+      clearInterval(intervaloLluvia);
+      document.querySelectorAll('.mensaje').forEach(m => m.remove());
+      lluviaActiva = false;
+
+      const musica = document.getElementById('musica');
+      musica.pause();
+      musica.currentTime = 0;
+
+      document.getElementById('reiniciar').style.display = 'none';
+
+      // restaurar instrucción
+      const instruccion = document.createElement('div');
+      instruccion.className = 'instruccion';
+      instruccion.textContent = 'Haz clic para empezar ✨';
+      document.body.appendChild(instruccion);
+    });
   </script>
 </body>
 </html>
