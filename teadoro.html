@@ -7,15 +7,15 @@
     body {
       margin: 0;
       overflow: hidden;
-      background: linear-gradient(to bottom, #fff0f5, #ffe6f0);
-      font-family: Arial, sans-serif;
-      cursor: pointer;
+      background: url('https://i.imgur.com/07lS5hD.jpg') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      position: relative;
     }
 
     .mensaje {
       position: absolute;
-      font-size: 24px;
-      color: #d63384;
+      color: #fff0f5;
       animation: caer 6s linear forwards;
       white-space: nowrap;
       pointer-events: none;
@@ -38,7 +38,8 @@
       left: 50%;
       transform: translate(-50%, -50%);
       font-size: 32px;
-      color: #c2185b;
+      color: #ffffff;
+      text-shadow: 1px 1px 2px #000;
       text-align: center;
       z-index: 10;
       user-select: none;
@@ -50,7 +51,7 @@
       left: 50%;
       transform: translateX(-50%);
       font-size: 16px;
-      color: #888;
+      color: #eeeeee;
       text-align: center;
       z-index: 5;
     }
@@ -61,7 +62,7 @@
       left: 50%;
       transform: translateX(-50%);
       padding: 10px 20px;
-      background: #d63384;
+      background: #ff66cc;
       color: white;
       border: none;
       border-radius: 20px;
@@ -69,10 +70,29 @@
       cursor: pointer;
       display: none;
       z-index: 100;
+      box-shadow: 0 0 10px #ff66cc;
     }
 
     #reiniciar:hover {
-      background: #b61c6c;
+      background: #ff3399;
+    }
+
+    .estrella {
+      position: absolute;
+      color: yellow;
+      font-size: 20px;
+      animation: explotar 1s ease-out forwards;
+    }
+
+    @keyframes explotar {
+      0% {
+        transform: scale(0.5);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100px) scale(2);
+        opacity: 0;
+      }
     }
   </style>
 </head>
@@ -82,6 +102,7 @@
   <div class="instruccion">Haz clic para empezar ✨</div>
   <button id="reiniciar">Reiniciar 💫</button>
 
+  <!-- Música de fondo -->
   <audio id="musica" loop>
     <source src="https://dl.dropboxusercontent.com/scl/fi/3uywryulap17z2p0pwzuy/musica-suave.mp3?rlkey=4a7zjplfdowkp9z4ep6v4bbp6&dl=0" type="audio/mpeg">
     Tu navegador no soporta audio.
@@ -114,30 +135,40 @@
       }
     }
 
-    document.body.addEventListener('click', iniciarLluvia);
-
-    function iniciarLluvia() {
-      if (!lluviaActiva) {
-        lluviaActiva = true;
-
-        const texto = document.querySelector('.instruccion');
-        if (texto) texto.remove();
-
-        const musica = document.getElementById('musica');
-        musica.play().catch(() => {
-          // Algunos navegadores no permiten autoplay sin interacción
-        });
-
-        intervaloLluvia = setInterval(lluvia, 1500); // más lento
-        lluvia();
-
-        document.getElementById('reiniciar').style.display = 'block';
+    function explotarEstrellas(x, y) {
+      for (let i = 0; i < 30; i++) {
+        const estrella = document.createElement('div');
+        estrella.className = 'estrella';
+        estrella.textContent = '⭐';
+        estrella.style.left = (x + Math.random() * 100 - 50) + 'px';
+        estrella.style.top = (y + Math.random() * 50 - 25) + 'px';
+        document.body.appendChild(estrella);
+        setTimeout(() => estrella.remove(), 1000);
       }
+    }
+
+    document.body.addEventListener('click', (e) => {
+      if (!lluviaActiva) iniciarLluvia(e);
+    });
+
+    function iniciarLluvia(e) {
+      lluviaActiva = true;
+      const texto = document.querySelector('.instruccion');
+      if (texto) texto.remove();
+
+      const musica = document.getElementById('musica');
+      musica.play().catch(() => {});
+
+      intervaloLluvia = setInterval(lluvia, 1500);
+      lluvia();
+
+      document.getElementById('reiniciar').style.display = 'block';
+      explotarEstrellas(e.clientX, e.clientY);
     }
 
     document.getElementById('reiniciar').addEventListener('click', () => {
       clearInterval(intervaloLluvia);
-      document.querySelectorAll('.mensaje').forEach(m => m.remove());
+      document.querySelectorAll('.mensaje, .estrella').forEach(m => m.remove());
       lluviaActiva = false;
 
       const musica = document.getElementById('musica');
@@ -152,6 +183,5 @@
       document.body.appendChild(instruccion);
     });
   </script>
-
 </body>
 </html>
