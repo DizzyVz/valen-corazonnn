@@ -2,7 +2,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Te adoro 💗</title>
+  <title>Te adoro Valen 💗</title>
   <style>
     body {
       margin: 0;
@@ -15,7 +15,7 @@
   position: absolute;
   font-size: 24px;
   color: #d63384;
-  animation: caer 3s linear forwards;
+  animation: caer 1s linear forwards;
   white-space: nowrap;
 }
 
@@ -44,12 +44,12 @@
   </style>
 </head>
 <body onclick="lluvia()">
-  <div class="texto-central">Te adoro 💗 Te adoro 💕 Te adoro 💞</div>  <script>
+  <div class="texto-central">Te quiero 💗✨</div>  <script>
     function lluvia() {
-      for (let i = 0; i < 20; i++) {
+      for (let i = 0; i < 60; i++) {
         const mensaje = document.createElement('div');
         mensaje.className = 'mensaje';
-        const opciones = ['Te adoro 💗', 'Te adoro 💕', 'Te adoro 💞'];
+        const opciones = ['Te adoro 💗', 'Te quiero 💕', 'Te amo 💞', 'Eres la mejor✨'];
         mensaje.textContent = opciones[Math.floor(Math.random() * opciones.length)];
         mensaje.style.left = Math.random() * window.innerWidth + 'px';
         mensaje.style.top = '-40px';
