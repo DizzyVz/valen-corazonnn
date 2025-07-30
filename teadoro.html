@@ -71,8 +71,11 @@
       }
     }
 
-    // Lluvia constante cada 500ms
+    // Iniciar lluvia automáticamente y repetir cada 500ms
     setInterval(lluvia, 500);
+
+    // También iniciar una primera lluvia al cargar (por si setInterval tarda)
+    window.onload = lluvia;
   </script>
 </body>
 </html>
